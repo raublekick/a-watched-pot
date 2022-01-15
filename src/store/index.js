@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import ACTIONS from "./actions"
 
 Vue.use(Vuex);
 
@@ -13,7 +14,7 @@ const PotState = {
   Puddle: "puddle",
   Simmer: "simmer",
   Boil: "boil"
-}
+};
 
 const FireState = {
   Cold: "cold",
@@ -51,31 +52,7 @@ export default new Vuex.Store({
       sticks: 0,
       logs: 0,
     },
-    actions: {
-      watch: {
-        name: "watch",
-        unlocked: true,
-        used: 0,
-      },
-      blow: {
-        name: "blow",
-        unlocked: false,
-        used: 0,
-        requirement: { type: "actions", name: "watch", count: 3 },
-      },
-      rub: {
-        name: "rub",
-      },
-      kindle: {
-        name: "kindle",
-      },
-      place: {
-        name: "place",
-      },
-      stack: {
-        name: "stack",
-      },
-    },
+    actions: ACTIONS,
     environments: {
       look: {
         name: "look",
