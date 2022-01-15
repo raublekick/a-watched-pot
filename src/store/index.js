@@ -40,7 +40,6 @@ export default new Vuex.Store({
       temperature: 0,
       mass: 1000,
       specificHeatC: 4.186,
-      temperature: 0
     },
     fire: {
       temp: 0,
@@ -101,13 +100,20 @@ export default new Vuex.Store({
   },
   actions: {
     tick({ state }) {
+      // apply ambient enery gain/loss
       if (state.pot.joules < 0) {
-        state.pot.joules++;
+        state.pot.joules += state.pot.ambientJoules;
       } else if (state.pot.joules > 0) {
-        state.pot.joules--;
+        state.pot.joules -= state.pot.ambientJoules;
       }
-
+      // increment time
       state.time.currentTime++;
+
+      // calculate Joules
+
+      // calculate pot temperature (deltaT = Q/cm)
+      var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
+      state.pot.temperature = temp < 0 ? 0 : temp;
     },
   },
 });
