@@ -51,12 +51,20 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "App",
   components: {},
+  methods: {
+    ...mapActions(["tick"]),
+  },
   computed: {
     ...mapState(["actions", "environments", "pot", "fire"]),
+  },
+  created() {
+    setInterval(() => {
+      this.tick();
+    }, 1000);
   },
 };
 </script>

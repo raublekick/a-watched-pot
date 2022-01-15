@@ -15,15 +15,21 @@ const FireState = {
   Roaring: "roaring",
 };
 
-export default {
+export default new Vuex.Store({
   state: {
     gameState: GameState.Playing,
+    time: {
+      min: 0,
+      max: 12 * 60 * 60,
+      currentTime: 0,
+    },
     pot: {
-      joules: 0,
+      joules: -380,
       baseAmbientJoules: 1,
       ambientJoules: 1,
       min: -380,
       max: 380000,
+      temperature: 0,
     },
     fire: {
       temp: 0,
@@ -82,5 +88,15 @@ export default {
       state.gameState = gameState;
     },
   },
-  actions: {},
-};
+  actions: {
+    tick({ state }) {
+      if (state.pot.joules < 0) {
+        state.pot.joules++;
+      } else if (state.pot.joules > 0) {
+        state.pot.joules--;
+      }
+
+      state.time.currentTime++;
+    },
+  },
+});
