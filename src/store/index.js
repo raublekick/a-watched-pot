@@ -8,8 +8,15 @@ const GameState = {
   Paused: "paused",
 };
 
+const PotState = {
+  Ice: "ice",
+  Puddle: "puddle",
+  Simmer: "simmer",
+  Boil: "boil"
+}
+
 const FireState = {
-  Empty: "empty",
+  Cold: "cold",
   Kindled: "kindled",
   Crackling: "crackling",
   Roaring: "roaring",
@@ -24,16 +31,20 @@ export default new Vuex.Store({
       currentTime: 0,
     },
     pot: {
+      state: PotState.Ice,
       joules: -380,
       baseAmbientJoules: 1,
       ambientJoules: 1,
       min: -380,
       max: 380000,
       temperature: 0,
+      mass: 1000,
+      specificHeatC: 4.186,
+      temperature: 0
     },
     fire: {
       temp: 0,
-      state: FireState.Empty,
+      state: FireState.Cold,
       fuel: [],
     },
     inventory: {

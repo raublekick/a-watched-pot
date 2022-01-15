@@ -1,0 +1,18 @@
+$size: 10px;
+
+.art {
+  position: relative;
+  width: calc(21 * #{$size}); // Pixel size * # of columns
+  height: calc(21 * #{$size}); // Pixel size * # of rows
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $size;
+    height: $size;
+  }
+}
+
+@import "pot.scss";
+@import "fire.scss";

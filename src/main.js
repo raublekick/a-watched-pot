@@ -3,6 +3,7 @@ import App from "./App.vue";
 import store from "./store/index.js";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
+import "./assets/style.scss";
 
 Vue.use(Buefy);
 
