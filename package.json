@@ -7,8 +7,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "deploy": "node scripts/gh-pages-deploy.js"
+    "lint:fix": "eslint src --fix"
   },
   "dependencies": {
     "buefy": "^0.9.14",
