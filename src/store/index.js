@@ -55,22 +55,6 @@ export default new Vuex.Store({
       logs: 0,
     },
     actions: actions,
-    environments: {
-      look: {
-        name: "look",
-        unlocked: false,
-        used: 0,
-      },
-      gather: {
-        name: "gather",
-        unlocked: false,
-        used: 0,
-        requirement: { type: "actions", name: "blow", count: 1 },
-      },
-      chop: {
-        name: "chop",
-      },
-    },
   },
   mutations: {
     changeGameState(state, gameState) {
@@ -112,17 +96,7 @@ export default new Vuex.Store({
       // check actions
       Object.keys(state.actions).forEach((key) => {
         // requires an amount of some thing
-        if (!state.actions[key].unlocked) {
-          var type = state[state.actions[key].requirement.type];
-          var name = state.actions[key].requirement.name;
-          var count = state.actions[key].requirement.count;
-          var action = type[name].count;
-
-          console.log(type);
-          console.log(name);
-          console.log(count);
-          console.log(action);
-
+        if (!state.actions[key].unlocked && state.actions[key].requirement) {
           var req =
             state[state.actions[key].requirement.type][
             state.actions[key].requirement.name

@@ -7,28 +7,13 @@
         <div class="columns">
           <div class="column m-1">
             <pot />
-          </div>
-          <div class="column m-1">
-            <fieldset class="actions">
-              <legend>actions...</legend>
-              <div v-for="(action, index) in actions" :key="index">
-                <b-button v-if="action.unlocked" @click="trigger(action)">{{
-                  index
-                }}</b-button>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div class="columns">
-          <div class="column m-1">
             <fire />
           </div>
-          <fieldset class="environment column m-1">
-            <legend>environment...</legend>
-            <div v-for="(environment, index) in environments" :key="index">
-              <b-button>{{ index }}</b-button>
-            </div>
-          </fieldset>
+          <div class="column m-1">
+            <template v-for="(group, index) in mappedActions">
+              <actions :key="index" :items="group" :title="index"></actions>
+            </template>
+          </div>
         </div>
       </div>
     </section>
@@ -37,16 +22,24 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import * as _ from "lodash";
 import Pot from "./components/Pot.vue";
 import Fire from "./components/Fire.vue";
+import Actions from "./components/Actions.vue";
 export default {
   name: "App",
-  components: { Pot, Fire },
+  components: { Pot, Fire, Actions },
   methods: {
     ...mapActions(["tick", "trigger"]),
   },
   computed: {
-    ...mapState(["actions", "environments", "messages"]),
+    ...mapState(["actions", "messages"]),
+    mappedActions() {
+      var unlocked = _.filter(this.actions, (action) => {
+        return action.unlocked;
+      });
+      return _.groupBy(unlocked, "type");
+    },
   },
   created() {
     setInterval(() => {

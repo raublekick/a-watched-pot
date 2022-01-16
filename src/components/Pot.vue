@@ -23,7 +23,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "Pot",
+  name: "PotBlock",
   computed: {
     ...mapState(["pot"]),
     artClass() {

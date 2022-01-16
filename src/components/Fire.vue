@@ -17,7 +17,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "Fire",
+  name: "FireBlock",
   computed: {
     ...mapState(["fire"]),
     artClass() {
