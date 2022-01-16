@@ -136,11 +136,15 @@ export default new Vuex.Store({
       });
 
       if (state.fire.state === FireState.Kindled) {
-        state.messages += "there's no point when the firse is started...\n";
+        state.messages += "there's no point when the fire is started...\n";
       }
 
       if (!missing && state.fire.state !== FireState.Kindled) {
         state.fire.state = FireState.Kindled;
+        if (!state.actions.chop.unlocked) {
+          state.messages +=
+            "with the fire lit, you see the glint of an axe blade...\n";
+        }
       }
     },
     async handleMessages({ state }, action) {
