@@ -28,6 +28,23 @@ export default {
     unlocked: false,
     count: 0,
     requirement: { type: "inventory", name: "sticks", count: 2 },
+    invoke: {
+      name: "kindle",
+      args: [
+        {
+          type: "inventory",
+          name: "sticks",
+          count: 2,
+          message: "you don't have two sticks to rub together...\n",
+        },
+        {
+          type: "inventory",
+          name: "kindling",
+          count: 1,
+          message: "you rub the sticks and see a brief flame...\n",
+        },
+      ],
+    },
   },
   kindle: {
     type: "fire",

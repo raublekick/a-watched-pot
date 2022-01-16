@@ -106,6 +106,25 @@ export default new Vuex.Store({
       // check if anything needs unlocked
       await dispatch("checkUnlocks");
     },
+    async kindle({ state }, items) {
+      // check if inventory contains the items we need
+      var missing = false;
+      _.forEach(items, (item) => {
+        if (item.count > state[item.type][item.name].count) {
+          state.messages += item.message;
+          missing = true;
+          return;
+        }
+      });
+
+      if (state.fire.state === FireState.Kindled) {
+        state.messages += "there's no point when the firse is started...\n";
+      }
+
+      if (!missing && state.fire.state !== FireState.Kindled) {
+        state.fire.state = FireState.Kindled;
+      }
+    },
     async trigger({ state, dispatch }, action) {
       // add any messages that needed displayed
       if (action.messages && action.messages[action.count]) {
@@ -125,6 +144,10 @@ export default new Vuex.Store({
       }
 
       // TODO: remove any inventory needed
+
+      if (action.invoke) {
+        await dispatch(action.invoke.name, action.invoke.args);
+      }
 
       await dispatch("checkUnlocks");
     },
