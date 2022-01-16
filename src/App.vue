@@ -18,7 +18,7 @@
                 <fieldset class="p-1">
                   <legend class="p-1">inventory...</legend>
                   <div v-for="(item, key) in inventory" :key="key">
-                    {{ key }}: {{ Math.round(item.count) }}
+                    {{ key }}: {{ Math.floor(item.count) }}
                   </div>
                 </fieldset>
               </div>

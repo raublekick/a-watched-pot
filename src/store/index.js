@@ -24,8 +24,8 @@ const FireState = {
   Roaring: "roaring",
 };
 
-const PowerPerHour = 3;
-const PowerPerSecon = PowerPerHour * 3600;
+const PowerPerHour = 1;
+const PowerPerSecond = PowerPerHour * 3600;
 
 export default new Vuex.Store({
   state: {
@@ -91,7 +91,20 @@ export default new Vuex.Store({
       // increment time
       state.time.currentTime++;
 
-      // TODO: calculate fire watts
+      if (state.fire.state !== FireState.Cold) {
+        var totalFuels = 0;
+        _.forEach(state.fire.fuel, (fuel) => {
+          var output = PowerPerSecond * (fuel.weight / 1000);
+          totalFuels += output;
+          fuel.weight -= fuel.decay;
+        });
+        state.pot.joulesPerSecond += totalFuels;
+
+        // remove any burned up fuel
+        state.fire.fuel = _.filter(state.fire.fuel, (fuel) => {
+          return fuel.weight > 0;
+        });
+      }
 
       // TODO: calculate Joules,
       // TODO: add a joules bonus array
@@ -104,7 +117,9 @@ export default new Vuex.Store({
       var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
       state.pot.temperature = temp < 0 ? 0 : temp;
 
-      // TODO: change pot and fire states as needed i.e. pot temp = 0, fire fuel empty
+      if (state.fire.fuel.length === 0) {
+        state.fire.state = FireState.Cold;
+      }
 
       // check if anything needs unlocked
       await dispatch("checkUnlocks");
@@ -166,7 +181,7 @@ export default new Vuex.Store({
         var item = state.items[fuel.name];
 
         for (var i = 0; i < fuel.count; i++) {
-          state.fire.fuel.push(item);
+          state.fire.fuel.push(Object.assign({}, item));
         }
       });
     },
