@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="column p-1 actions">
+  <fieldset class="p-1 actions">
     <legend class="p-1">{{ title }}</legend>
     <template v-for="(action, index) in items">
       <b-button
