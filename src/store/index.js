@@ -61,12 +61,12 @@ export default new Vuex.Store({
       sticks: {
         name: "sticks",
         decay: 1,
-        weight: 100,
+        weight: 20,
       },
       logs: {
         name: "logs",
         decay: 1,
-        weight: 1000,
+        weight: 60,
       },
     },
     inventory: {

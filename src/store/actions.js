@@ -20,7 +20,7 @@ export default {
       "you blow on the pot...\n",
       "you blow on the pot again...\n",
       "you blow on the pot and think you should look for another way...\n",
-    ],
+    ], // TODO: add handler for blowing on pot or blowing on flames
   },
   rub: {
     type: "fire",
