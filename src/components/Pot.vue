@@ -8,13 +8,12 @@
       <div class="column">
         <div>temperature</div>
         <b-progress type="is-danger" :value="pot.temperature" show-value
-          >{{ pot.temperature }} C</b-progress
+          >{{ pot.temperature.toFixed(2) }} C</b-progress
         >
         <div>state: {{ pot.state }}</div>
         <div>mass: {{ pot.mass }}g</div>
-        <div>joules: {{ pot.joules }}</div>
-        <!-- TODO: calculate j/s -->
-        <div>joules / s:</div>
+        <div>joules: {{ pot.joules.toFixed(2) }}</div>
+        <div>joules / s: {{ pot.joulesPerSecond.toFixed(2) }}</div>
       </div>
     </div>
   </fieldset>

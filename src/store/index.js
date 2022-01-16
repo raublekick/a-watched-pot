@@ -30,6 +30,7 @@ const PowerPerSecon = PowerPerHour * 3600;
 export default new Vuex.Store({
   state: {
     messages: "",
+    ambientTemperature: 22,
     gameState: GameState.Playing,
     time: {
       min: 0,
@@ -39,8 +40,7 @@ export default new Vuex.Store({
     pot: {
       state: PotState.Ice,
       joules: -380,
-      baseAmbientJoules: 1,
-      ambientJoules: 1,
+      joulesPerSecond: 0,
       min: -380,
       max: 380000,
       temperature: 0,
@@ -84,11 +84,10 @@ export default new Vuex.Store({
   actions: {
     async tick({ state, dispatch }) {
       // apply ambient enery gain/loss
-      if (state.pot.joules < 0) {
-        state.pot.joules += state.pot.ambientJoules;
-      } else if (state.pot.joules > 0) {
-        state.pot.joules -= state.pot.ambientJoules;
-      }
+      // if ambient > pot temp, increase, else decrease
+      state.pot.joulesPerSecond =
+        (state.ambientTemperature - state.pot.temperature) / 10;
+
       // increment time
       state.time.currentTime++;
 
@@ -99,9 +98,13 @@ export default new Vuex.Store({
       // similar to fuel w/ amt and decay.
       // TODO: Calculate total bonus and remove decayed itms.
 
+      state.pot.joules += state.pot.joulesPerSecond;
+
       // calculate pot temperature (deltaT = Q/cm)
       var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
       state.pot.temperature = temp < 0 ? 0 : temp;
+
+      // TODO: change pot and fire states as needed i.e. pot temp = 0, fire fuel empty
 
       // check if anything needs unlocked
       await dispatch("checkUnlocks");
