@@ -16,6 +16,11 @@ export default {
     unlocked: false,
     count: 0,
     requirement: { type: "actions", name: "watch", count: 3 },
+    messages: [
+      "you blow on the pot...\n",
+      "you blow on the pot again...\n",
+      "you blow on the pot and think you should look for another way...\n",
+    ]
   },
   rub: {
     type: "fire",
@@ -49,17 +54,26 @@ export default {
     type: "environment",
     name: "look",
     unlocked: false,
-    used: 0,
+    count: 0,
+    requirement: { type: "actions", name: "blow", count: 3 },
+    messages: [
+      "you look around...\n",
+      "you look around some more, but it is very dark...\n",
+      "you take one last look and notice that you are surrounded by sticks and leaves...\n",
+    ]
   },
   gather: {
     type: "environment",
     name: "gather",
     unlocked: false,
-    used: 0,
-    requirement: { type: "actions", name: "blow", count: 1 },
+    count: 0,
+    requirement: { type: "actions", name: "look", count: 3 },
+    messages: ["you try to gather some sticks and leaves...\n"],
+    items: [{ type: "inventory", name: "leaves", count: 2 }, { type: "inventory", name: "sticks", count: 0.2 }]
   },
   chop: {
     type: "environment",
     name: "chop",
+    requirement: { type: "fire", name: "state", notValue: "cold" }
   },
 };

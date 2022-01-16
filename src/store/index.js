@@ -72,7 +72,12 @@ export default new Vuex.Store({
       // increment time
       state.time.currentTime++;
 
-      // calculate Joules
+      // TODO: calculate fire watts
+
+      // TODO: calculate Joules, 
+      // TODO: add a joules bonus array 
+      // similar to fuel w/ amt and decay. 
+      // TODO: Calculate total bonus and remove decayed itms.
 
       // calculate pot temperature (deltaT = Q/cm)
       var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
@@ -86,12 +91,16 @@ export default new Vuex.Store({
       if (action.messages && action.messages[action.count]) {
         state.messages += action.messages[action.count];
       }
+      else if (action.messages) {
+        state.messages += action.messages[0];
+      }
 
       // increment usage count
       action.count++;
 
-      // remove any inventory needed
+      // TODO: remove any inventory needed
     },
+    // TODO: disable items? i.e. no rubbing if fire state is not cold or if no sticks
     async checkUnlocks({ state }) {
       // check actions
       Object.keys(state.actions).forEach((key) => {

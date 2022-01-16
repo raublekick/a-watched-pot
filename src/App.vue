@@ -2,7 +2,7 @@
   <div id="app">
     <section class="container">
       <h1 class="title p-4">A Watched Pot...</h1>
-      <pre>{{ messages }}</pre>
+      <pre class="log" ref="log">{{ messages }}</pre>
       <div class="row">
         <div class="columns">
           <div class="column m-1">
@@ -46,11 +46,23 @@ export default {
       this.tick();
     }, 1000);
   },
+  watch: {
+    messages() {
+      this.$nextTick(() => {
+        this.$refs.log.scrollTop = this.$refs.log.scrollHeight;
+      });
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 fieldset {
   border: 3px solid black;
+}
+.log {
+  height: 150px;
+  max-height: 150px;
+  width: 100%;
 }
 </style>
