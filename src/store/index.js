@@ -24,6 +24,9 @@ const FireState = {
   Roaring: "roaring",
 };
 
+const PowerPerHour = 3;
+const PowerPerSecon = PowerPerHour * 3600;
+
 export default new Vuex.Store({
   state: {
     messages: "",
@@ -49,10 +52,27 @@ export default new Vuex.Store({
       state: FireState.Cold,
       fuel: [],
     },
+    items: {
+      kindling: {
+        name: "kindling",
+        decay: 0.1,
+        weight: 1,
+      },
+      sticks: {
+        name: "sticks",
+        decay: 1,
+        weight: 100,
+      },
+      logs: {
+        name: "logs",
+        decay: 1,
+        weight: 1000,
+      },
+    },
     inventory: {
-      kindling: 0,
-      sticks: 0,
-      logs: 0,
+      kindling: { count: 0 },
+      sticks: { count: 0 },
+      logs: { count: 0 },
     },
     actions: actions,
   },
@@ -96,6 +116,13 @@ export default new Vuex.Store({
 
       // increment usage count
       action.count++;
+
+      if (action.gains) {
+        _.forEach(action.gains, (gain) => {
+          // get item
+          state[gain.type][gain.name].count += gain.count;
+        });
+      }
 
       // TODO: remove any inventory needed
 

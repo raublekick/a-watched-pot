@@ -20,7 +20,7 @@ export default {
       "you blow on the pot...\n",
       "you blow on the pot again...\n",
       "you blow on the pot and think you should look for another way...\n",
-    ]
+    ],
   },
   rub: {
     type: "fire",
@@ -60,7 +60,7 @@ export default {
       "you look around...\n",
       "you look around some more, but it is very dark...\n",
       "you take one last look and notice that you are surrounded by sticks and leaves...\n",
-    ]
+    ],
   },
   gather: {
     type: "environment",
@@ -69,11 +69,14 @@ export default {
     count: 0,
     requirement: { type: "actions", name: "look", count: 3 },
     messages: ["you try to gather some sticks and leaves...\n"],
-    items: [{ type: "inventory", name: "leaves", count: 2 }, { type: "inventory", name: "sticks", count: 0.2 }]
+    gains: [
+      { type: "inventory", name: "kindling", count: 2 },
+      { type: "inventory", name: "sticks", count: 0.2 },
+    ],
   },
   chop: {
     type: "environment",
     name: "chop",
-    requirement: { type: "fire", name: "state", notValue: "cold" }
+    requirement: { type: "fire", name: "state", notValue: "cold" },
   },
 };
