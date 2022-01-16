@@ -138,10 +138,37 @@ export default new Vuex.Store({
     async addInventory({ state }, action) {
       if (action.gains) {
         _.forEach(action.gains, (gain) => {
-          // get item
           state[gain.type][gain.name].count += gain.count;
         });
       }
+    },
+    async removeInventory({ state }, items) {
+      var missing = false;
+      _.forEach(items, (cost) => {
+        if (cost.count > state[cost.type][cost.name].count) {
+          missing = true;
+          return;
+        }
+        state[cost.type][cost.name].count -= cost.count;
+      });
+      return !missing;
+    },
+    async fuel({ state, dispatch }, fuels) {
+      // try to remove decrement inventory
+      var removed = await dispatch("removeInventory", fuels);
+      if (!removed) {
+        state.messages += "you don't have enough for that...\n";
+        return;
+      }
+
+      // add fuels to fire
+      _.forEach(fuels, (fuel) => {
+        var item = state.items[fuel.name];
+
+        for (var i = 0; i < fuel.count; i++) {
+          state.fire.fuel.push(item);
+        }
+      });
     },
     async trigger({ dispatch }, action) {
       // increment usage count

@@ -13,12 +13,26 @@
             <template v-for="(group, index) in mappedActions">
               <actions :key="index" :items="group" :title="index"></actions>
             </template>
-            <fieldset class="p-1">
-              <legend class="p-1">inventory...</legend>
-              <div v-for="(item, key) in inventory" :key="key">
-                {{ key }}: {{ Math.round(item.count) }}
+            <div class="columns">
+              <div class="column">
+                <fieldset class="p-1">
+                  <legend class="p-1">inventory...</legend>
+                  <div v-for="(item, key) in inventory" :key="key">
+                    {{ key }}: {{ Math.round(item.count) }}
+                  </div>
+                </fieldset>
               </div>
-            </fieldset>
+              <div class="column">
+                <fieldset class="p-1">
+                  <legend class="p-1">items...</legend>
+                  <div v-for="(item, key) in items" :key="key" class="columns">
+                    <div class="column">{{ key }}</div>
+                    <div class="column">weight: {{ item.weight }}</div>
+                    <div class="column">decay: {{ item.decay }}</div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -39,7 +53,7 @@ export default {
     ...mapActions(["tick", "trigger"]),
   },
   computed: {
-    ...mapState(["actions", "messages", "inventory"]),
+    ...mapState(["actions", "messages", "inventory", "items"]),
     mappedActions() {
       var unlocked = _.filter(this.actions, (action) => {
         return action.unlocked;

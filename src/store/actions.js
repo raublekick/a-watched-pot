@@ -52,6 +52,16 @@ export default {
     unlocked: false,
     count: 0,
     requirement: { type: "inventory", name: "kindling", count: 5 },
+    handler: {
+      name: "fuel",
+      args: [
+        {
+          type: "inventory",
+          name: "kindling",
+          count: 5,
+        },
+      ],
+    },
   },
   place: {
     type: "fire",
@@ -59,6 +69,16 @@ export default {
     unlocked: false,
     count: 0,
     requirement: { type: "fire", name: "state", notValue: "cold" },
+    handler: {
+      name: "fuel",
+      args: [
+        {
+          type: "inventory",
+          name: "sticks",
+          count: 1,
+        },
+      ],
+    },
   },
   stack: {
     type: "fire",
@@ -66,6 +86,16 @@ export default {
     unlocked: false,
     count: 0,
     requirement: { type: "inventory", name: "logs", count: 1 },
+    handler: {
+      name: "fuel",
+      args: [
+        {
+          type: "inventory",
+          name: "logs",
+          count: 1,
+        },
+      ],
+    },
   },
   look: {
     type: "environment",
