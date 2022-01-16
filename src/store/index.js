@@ -128,28 +128,35 @@ export default new Vuex.Store({
         state.fire.state = FireState.Kindled;
       }
     },
-    async trigger({ state, dispatch }, action) {
-      // add any messages that needed displayed
+    async handleMessages({ state }, action) {
       if (action.messages && action.messages[action.count]) {
         state.messages += action.messages[action.count];
       } else if (action.messages) {
         state.messages += action.messages[0];
       }
-
-      // increment usage count
-      action.count++;
-
+    },
+    async addInventory({ state }, action) {
       if (action.gains) {
         _.forEach(action.gains, (gain) => {
           // get item
           state[gain.type][gain.name].count += gain.count;
         });
       }
+    },
+    async trigger({ dispatch }, action) {
+      // increment usage count
+      action.count++;
+
+      // add any messages that needed displayed
+      await dispatch("handleMessages", action);
+
+      // handle inventory gains
+      await dispatch("addInventory", action);
 
       // TODO: remove any inventory needed
 
-      if (action.invoke) {
-        await dispatch(action.invoke.name, action.invoke.args);
+      if (action.handler) {
+        await dispatch(action.handler.name, action.handler.args);
       }
 
       await dispatch("checkUnlocks");
@@ -165,16 +172,23 @@ export default new Vuex.Store({
               state.actions[key].requirement.name
             ];
 
+          // check based on object count
           if (
             state.actions[key].requirement.count &&
             req.count >= state.actions[key].requirement.count
           ) {
             state.actions[key].unlocked = true;
           }
+
+          // check based on object state
+          if (
+            state.actions[key].requirement.notValue &&
+            req !== state.actions[key].requirement.notValue
+          ) {
+            state.actions[key].unlocked = true;
+          }
         }
       });
-
-      // check environments
     },
   },
 });

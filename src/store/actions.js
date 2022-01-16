@@ -28,7 +28,7 @@ export default {
     unlocked: false,
     count: 0,
     requirement: { type: "inventory", name: "sticks", count: 2 },
-    invoke: {
+    handler: {
       name: "kindle",
       args: [
         {
@@ -95,5 +95,7 @@ export default {
     type: "environment",
     name: "chop",
     requirement: { type: "fire", name: "state", notValue: "cold" },
+    messages: ["you chop at a log, this is real work...\n"],
+    gains: [{ type: "inventory", name: "logs", count: 0.1 }],
   },
 };
