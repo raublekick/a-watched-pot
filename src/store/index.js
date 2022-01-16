@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import ACTIONS from "./actions"
+import actions from "./actions";
+import * as _ from "lodash";
 
 Vue.use(Vuex);
 
@@ -13,7 +14,7 @@ const PotState = {
   Ice: "ice",
   Puddle: "puddle",
   Simmer: "simmer",
-  Boil: "boil"
+  Boil: "boil",
 };
 
 const FireState = {
@@ -25,6 +26,7 @@ const FireState = {
 
 export default new Vuex.Store({
   state: {
+    messages: "",
     gameState: GameState.Playing,
     time: {
       min: 0,
@@ -52,7 +54,7 @@ export default new Vuex.Store({
       sticks: 0,
       logs: 0,
     },
-    actions: ACTIONS,
+    actions: actions,
     environments: {
       look: {
         name: "look",
@@ -76,7 +78,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    tick({ state }) {
+    async tick({ state, dispatch }) {
       // apply ambient enery gain/loss
       if (state.pot.joules < 0) {
         state.pot.joules += state.pot.ambientJoules;
@@ -91,6 +93,51 @@ export default new Vuex.Store({
       // calculate pot temperature (deltaT = Q/cm)
       var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
       state.pot.temperature = temp < 0 ? 0 : temp;
+
+      // check if anything needs unlocked
+      await dispatch("checkUnlocks");
+    },
+    async trigger({ state }, action) {
+      // add any messages that needed displayed
+      if (action.messages && action.messages[action.count]) {
+        state.messages += action.messages[action.count];
+      }
+
+      // increment usage count
+      action.count++;
+
+      // remove any inventory needed
+    },
+    async checkUnlocks({ state }) {
+      // check actions
+      Object.keys(state.actions).forEach((key) => {
+        // requires an amount of some thing
+        if (!state.actions[key].unlocked) {
+          var type = state[state.actions[key].requirement.type];
+          var name = state.actions[key].requirement.name;
+          var count = state.actions[key].requirement.count;
+          var action = type[name].count;
+
+          console.log(type);
+          console.log(name);
+          console.log(count);
+          console.log(action);
+
+          var req =
+            state[state.actions[key].requirement.type][
+            state.actions[key].requirement.name
+            ];
+
+          if (
+            state.actions[key].requirement.count &&
+            req.count >= state.actions[key].requirement.count
+          ) {
+            state.actions[key].unlocked = true;
+          }
+        }
+      });
+
+      // check environments
     },
   },
 });

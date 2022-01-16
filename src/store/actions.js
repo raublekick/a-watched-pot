@@ -3,6 +3,11 @@ export default {
     name: "watch",
     unlocked: true,
     count: 0,
+    messages: [
+      "you watch the pot...\n",
+      "you watch the pot some more...\n",
+      "you continue watching the pot...\n",
+    ],
   },
   blow: {
     name: "blow",

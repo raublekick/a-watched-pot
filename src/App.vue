@@ -2,6 +2,7 @@
   <div id="app">
     <section class="container">
       <h1 class="title p-4">A Watched Pot...</h1>
+      <pre>{{ messages }}</pre>
       <div class="row">
         <div class="columns">
           <div class="column m-1">
@@ -11,7 +12,9 @@
             <fieldset class="actions">
               <legend>actions...</legend>
               <div v-for="(action, index) in actions" :key="index">
-                <b-button>{{ index }}</b-button>
+                <b-button v-if="action.unlocked" @click="trigger(action)">{{
+                  index
+                }}</b-button>
               </div>
             </fieldset>
           </div>
@@ -40,10 +43,10 @@ export default {
   name: "App",
   components: { Pot, Fire },
   methods: {
-    ...mapActions(["tick"]),
+    ...mapActions(["tick", "trigger"]),
   },
   computed: {
-    ...mapState(["actions", "environments", "fire"]),
+    ...mapState(["actions", "environments", "messages"]),
   },
   created() {
     setInterval(() => {
