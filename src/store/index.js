@@ -18,7 +18,7 @@ export default new Vuex.Store({
   actions: {
     async tick({ state, dispatch }) {
       // increment time
-      state.time.current += state.time.rate;
+      state.time.current += state.time.rate / 2;
 
       // set timeout state if time is up
       if (state.time.current >= state.time.max) {
@@ -47,8 +47,14 @@ export default new Vuex.Store({
       }
 
       // TODO: add a joules bonus array
-      // similar to fuel w/ amt and decay.
-
+      // apply penalty based on how close to 100, apply bonus based on prestige
+      var modifier =
+        ((100 - state.pot.temperature) / 100) *
+        state.prestige.joulesPenaltyBonus;
+      state.pot.joulesPerSecond =
+        state.pot.joulesPerSecond *
+        modifier *
+        state.prestige.joulesPerSecondBonus;
       state.pot.joules += state.pot.joulesPerSecond;
 
       // calculate pot temperature (deltaT = Q/cm)
@@ -95,7 +101,9 @@ export default new Vuex.Store({
     async addInventory({ state }, action) {
       if (action.gains) {
         _.forEach(action.gains, (gain) => {
-          state[gain.type][gain.name].count += gain.count;
+          // apply wood gains bonus
+          state[gain.type][gain.name].count +=
+            gain.count * state.prestige.woodGainsBonus;
         });
       }
     },
@@ -120,10 +128,14 @@ export default new Vuex.Store({
 
       // add fuels to fire
       _.forEach(fuels, (fuel) => {
-        var item = state.items[fuel.name];
+        var item = Object.assign({}, state.items[fuel.name]);
+
+        // apply prestige bonus
+        item.weight = item.weight * state.prestige.woodWeightBonus;
+        item.decay = item.decay / state.prestige.woodDecayBonus;
 
         for (var i = 0; i < fuel.count; i++) {
-          state.fire.fuel.push(Object.assign({}, item));
+          state.fire.fuel.push(item);
         }
       });
     },
@@ -173,6 +185,29 @@ export default new Vuex.Store({
           }
         }
       });
+    },
+    async upgradePrestige({ state }, stat) {
+      if (stat === "mind") {
+        state.prestige.woodWeightBonus++;
+      } else if (stat === "body") {
+        state.prestige.woodGainsBonus++;
+      } else if (stat === "spirit") {
+        state.prestige.woodDecayBonus++;
+      } else if (stat === "elements") {
+        state.prestige.joulesPerSecondBonus++;
+      } else if (stat === "channel") {
+        state.prestige.joulesPenaltyBonus++;
+      } else if (stat === "time") {
+        state.prestige.timeBonus++;
+      }
+      state.prestige.level++;
+      state.time.current = 0;
+      state.pot.joulesPerSecond = 0;
+      state.pot.joules = state.pot.min;
+      state.pot.state = PotState.Ice;
+      state.fire.fuel = [];
+      state.fire.state = FireState.Cold;
+      state.gameState = GameState.Playing;
     },
   },
 });

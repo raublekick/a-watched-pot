@@ -4,6 +4,7 @@ import store from "./store/index.js";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import "./assets/style.scss";
+import "@mdi/font/css/materialdesignicons.css";
 
 Vue.use(Buefy);
 

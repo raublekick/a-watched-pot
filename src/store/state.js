@@ -24,11 +24,20 @@ const DefaultState = {
   messages: "",
   ambientTemperature: 22,
   gameState: GameState.Playing,
+  prestige: {
+    level: 1,
+    woodWeightBonus: 1,
+    woodGainsBonus: 1,
+    woodDecayBonus: 1,
+    joulesPerSecondBonus: 1,
+    joulesPenaltyBonus: 1,
+    timeBonus: 1,
+  },
   time: {
     min: 0,
     max: 12 * 60 * 60,
     current: 0,
-    rate: 1000,
+    rate: 3600,
   },
   pot: {
     state: PotState.Ice,
@@ -48,17 +57,17 @@ const DefaultState = {
   items: {
     kindling: {
       name: "kindling",
-      decay: 0.1,
+      decay: 1,
       weight: 1,
     },
     sticks: {
       name: "sticks",
-      decay: 1,
+      decay: 5,
       weight: 20,
     },
     logs: {
       name: "logs",
-      decay: 1,
+      decay: 10,
       weight: 60,
     },
   },

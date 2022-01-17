@@ -22,14 +22,42 @@
                     {{ key }}: {{ Math.floor(item.count) }}
                   </div>
                 </fieldset>
+                <fieldset class="p-1" v-if="prestige.level > 1">
+                  <legend class="p-1">stats...</legend>
+                  <div>level: {{ prestige.level }}</div>
+                  <div v-if="prestige.woodWeightBonus > 1">
+                    mind: {{ prestige.woodWeightBonus }}
+                  </div>
+                  <div v-if="prestige.woodGainsBonus > 1">
+                    body: {{ prestige.woodGainsBonus }}
+                  </div>
+                  <div v-if="prestige.woodDecayBonus > 1">
+                    spirit: {{ prestige.woodDecayBonus }}
+                  </div>
+                  <div v-if="prestige.joulesPerSecondBonus > 1">
+                    elements: {{ prestige.joulesPerSecondBonus }}
+                  </div>
+                  <div v-if="prestige.joulesPenaltyBonus > 1">
+                    channeling: {{ prestige.joulesPenaltyBonus }}
+                  </div>
+                  <div v-if="prestige.timeBonus > 1">
+                    chronos: {{ prestige.timeBonus }}
+                  </div>
+                </fieldset>
               </div>
               <div class="column">
                 <fieldset class="p-1">
                   <legend class="p-1">items...</legend>
                   <div v-for="(item, key) in items" :key="key" class="columns">
                     <div class="column">{{ key }}</div>
-                    <div class="column">weight: {{ item.weight }}</div>
-                    <div class="column">decay: {{ item.decay }}</div>
+                    <div class="column">
+                      weight:
+                      {{ (item.weight * prestige.woodWeightBonus).toFixed(2) }}
+                    </div>
+                    <div class="column">
+                      decay:
+                      {{ (item.decay / prestige.woodDecayBonus).toFixed(2) }}
+                    </div>
                   </div>
                 </fieldset>
               </div>
@@ -55,7 +83,14 @@ export default {
     ...mapActions(["tick", "trigger"]),
   },
   computed: {
-    ...mapState(["actions", "messages", "inventory", "items", "time"]),
+    ...mapState([
+      "actions",
+      "messages",
+      "inventory",
+      "items",
+      "time",
+      "prestige",
+    ]),
     mappedActions() {
       var unlocked = _.filter(this.actions, (action) => {
         return action.unlocked;
