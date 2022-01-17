@@ -3,6 +3,11 @@
     <section class="container">
       <h1 class="title p-4">a watched pot...</h1>
       <pre class="log" ref="log">{{ messages }}</pre>
+      <b-progress
+        class="mb-1 mt-1"
+        :value="time.current"
+        :max="time.max"
+      ></b-progress>
       <div class="row">
         <div class="columns">
           <div class="column m-1">
@@ -53,7 +58,7 @@ export default {
     ...mapActions(["tick", "trigger"]),
   },
   computed: {
-    ...mapState(["actions", "messages", "inventory", "items"]),
+    ...mapState(["actions", "messages", "inventory", "items", "time"]),
     mappedActions() {
       var unlocked = _.filter(this.actions, (action) => {
         return action.unlocked;

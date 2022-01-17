@@ -35,7 +35,8 @@ export default new Vuex.Store({
     time: {
       min: 0,
       max: 12 * 60 * 60,
-      currentTime: 0,
+      current: 0,
+      rate: 1000,
     },
     pot: {
       state: PotState.Ice,
@@ -89,7 +90,7 @@ export default new Vuex.Store({
         (state.ambientTemperature - state.pot.temperature) / 10;
 
       // increment time
-      state.time.currentTime++;
+      state.time.current += state.time.rate;
 
       if (state.fire.state !== FireState.Cold) {
         var totalFuels = 0;
