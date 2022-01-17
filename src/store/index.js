@@ -1,82 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import actions from "./actions";
+import { GameState, FireState, PotState, DefaultState } from "./state";
 import * as _ from "lodash";
 
 Vue.use(Vuex);
-
-const GameState = {
-  Playing: "playing",
-  Paused: "paused",
-};
-
-const PotState = {
-  Ice: "ice",
-  Puddle: "puddle",
-  Simmer: "simmer",
-  Boil: "boil",
-};
-
-const FireState = {
-  Cold: "cold",
-  Kindled: "kindled",
-  Crackling: "crackling",
-  Roaring: "roaring",
-};
 
 const PowerPerHour = 1;
 const PowerPerSecond = PowerPerHour * 3600;
 
 export default new Vuex.Store({
-  state: {
-    messages: "",
-    ambientTemperature: 22,
-    gameState: GameState.Playing,
-    time: {
-      min: 0,
-      max: 12 * 60 * 60,
-      current: 0,
-      rate: 1000,
-    },
-    pot: {
-      state: PotState.Ice,
-      joules: -380,
-      joulesPerSecond: 0,
-      min: -380,
-      max: 380000,
-      temperature: 0,
-      mass: 1000,
-      specificHeatC: 4.186,
-    },
-    fire: {
-      temp: 0,
-      state: FireState.Cold,
-      fuel: [],
-    },
-    items: {
-      kindling: {
-        name: "kindling",
-        decay: 0.1,
-        weight: 1,
-      },
-      sticks: {
-        name: "sticks",
-        decay: 1,
-        weight: 20,
-      },
-      logs: {
-        name: "logs",
-        decay: 1,
-        weight: 60,
-      },
-    },
-    inventory: {
-      kindling: { count: 0 },
-      sticks: { count: 0 },
-      logs: { count: 0 },
-    },
-    actions: actions,
-  },
+  state: DefaultState,
   mutations: {
     changeGameState(state, gameState) {
       state.gameState = gameState;
@@ -84,13 +17,19 @@ export default new Vuex.Store({
   },
   actions: {
     async tick({ state, dispatch }) {
+      // increment time
+      state.time.current += state.time.rate;
+
+      // set timeout state if time is up
+      if (state.time.current >= state.time.max) {
+        state.gameState = GameState.TimeOut;
+        return;
+      }
+
       // apply ambient enery gain/loss
       // if ambient > pot temp, increase, else decrease
       state.pot.joulesPerSecond =
         (state.ambientTemperature - state.pot.temperature) / 10;
-
-      // increment time
-      state.time.current += state.time.rate;
 
       if (state.fire.state !== FireState.Cold) {
         var totalFuels = 0;
@@ -107,10 +46,8 @@ export default new Vuex.Store({
         });
       }
 
-      // TODO: calculate Joules,
       // TODO: add a joules bonus array
       // similar to fuel w/ amt and decay.
-      // TODO: Calculate total bonus and remove decayed itms.
 
       state.pot.joules += state.pot.joulesPerSecond;
 

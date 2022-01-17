@@ -3,11 +3,7 @@
     <section class="container">
       <h1 class="title p-4">a watched pot...</h1>
       <pre class="log" ref="log">{{ messages }}</pre>
-      <b-progress
-        class="mb-1 mt-1"
-        :value="time.current"
-        :max="time.max"
-      ></b-progress>
+      <time-block />
       <div class="row">
         <div class="columns">
           <div class="column m-1">
@@ -50,10 +46,11 @@ import { mapState, mapActions } from "vuex";
 import * as _ from "lodash";
 import Pot from "./components/Pot.vue";
 import Fire from "./components/Fire.vue";
+import TimeBlock from "./components/Time.vue";
 import Actions from "./components/Actions.vue";
 export default {
   name: "App",
-  components: { Pot, Fire, Actions },
+  components: { Pot, Fire, Actions, TimeBlock },
   methods: {
     ...mapActions(["tick", "trigger"]),
   },
