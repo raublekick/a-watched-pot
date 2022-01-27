@@ -26,6 +26,61 @@ export default new Vuex.Store({
         return;
       }
 
+      if (state.prestige.autoKindle) {
+        await dispatch("kindle", [
+          {
+            type: "inventory",
+            name: "sticks",
+            count: 2,
+            message: "you don't have two sticks to rub together...\n",
+          },
+          {
+            type: "inventory",
+            name: "kindling",
+            count: 1,
+            message: "you rub the sticks and see a brief flame...\n",
+          },
+        ]);
+      }
+
+      if (state.prestige.autoChop) {
+        // trigger gather and chop actions
+        await dispatch("addInventory", state.actions["gather"]);
+        await dispatch("addInventory", state.actions["chop"]);
+      }
+
+      if (state.prestige.autoStack) {
+        // trigger stack, place, and kindle
+        // await dispatch("fuel", [
+        //   {
+        //     type: "inventory",
+        //     name: "kindling",
+        //     count: 5,
+        //   },
+        // ]);
+        // await dispatch("fuel", [
+        //   {
+        //     type: "inventory",
+        //     name: "sticks",
+        //     count: 1,
+        //   },
+        // ]);
+        await dispatch("fuel", [
+          {
+            type: "inventory",
+            name: "logs",
+            count: 1,
+          },
+        ]);
+        await dispatch("fuel", [
+          {
+            type: "inventory",
+            name: "logs",
+            count: 1,
+          },
+        ]);
+      }
+
       // apply ambient enery gain/loss
       // if ambient > pot temp, increase, else decrease
       state.pot.joulesPerSecond =
