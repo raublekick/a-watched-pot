@@ -26,7 +26,7 @@ export default new Vuex.Store({
         return;
       }
 
-      if (state.prestige.autoKindle) {
+      if (state.prestige.autoKindle.active) {
         await dispatch("kindle", [
           {
             type: "inventory",
@@ -43,13 +43,13 @@ export default new Vuex.Store({
         ]);
       }
 
-      if (state.prestige.autoChop) {
+      if (state.prestige.autoChop.active) {
         // trigger gather and chop actions
         await dispatch("addInventory", state.actions["gather"]);
         await dispatch("addInventory", state.actions["chop"]);
       }
 
-      if (state.prestige.autoStack) {
+      if (state.prestige.autoStack.active) {
         // trigger stack, place, and kindle
         // await dispatch("fuel", [
         //   {
@@ -65,13 +65,6 @@ export default new Vuex.Store({
         //     count: 1,
         //   },
         // ]);
-        await dispatch("fuel", [
-          {
-            type: "inventory",
-            name: "logs",
-            count: 1,
-          },
-        ]);
         await dispatch("fuel", [
           {
             type: "inventory",
@@ -255,11 +248,14 @@ export default new Vuex.Store({
       } else if (stat === "time") {
         state.prestige.timeBonus++;
       } else if (state === "autoKindle") {
-        state.prestige.autoKindle = true;
+        state.prestige.autoKindle.active = true;
+        state.prestige.autoKindle.unlocked = true;
       } else if (state === "autoChop") {
-        state.prestige.autoChop = true;
+        state.prestige.autoChop.active = true;
+        state.prestige.autoChop.unlocked = true;
       } else if (state === "autoStack") {
-        state.prestige.autoStack = true;
+        state.prestige.autoStack.active = true;
+        state.prestige.autoChop.unlocked = true;
       }
 
       state.prestige.level++;

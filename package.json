@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@vue/eslint-config-prettier": "^7.0.0",
+    "sass": "^1.49.0",
     "vite": "^2.7.2",
     "vite-plugin-vue2": "^1.9.2"
   }

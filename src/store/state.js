@@ -32,9 +32,9 @@ const DefaultState = {
     joulesPerSecondBonus: 1,
     joulesPenaltyBonus: 1,
     timeBonus: 1,
-    autoKindle: false,
-    autoChop: false,
-    autoStack: false,
+    autoKindle: { unlocked: false, active: false },
+    autoChop: { unlocked: false, active: false },
+    autoStack: { unlocked: false, active: false },
   },
   time: {
     min: 0,
