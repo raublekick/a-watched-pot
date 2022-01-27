@@ -77,6 +77,35 @@
                 <div>lvl {{ prestige.timeBonus }}</div>
               </div>
             </div>
+            <div
+              class="columns mt-1 mb-1 has-text-centered is-vcentered"
+              v-if="showTierFour"
+            >
+              <div class="column prestige">
+                <b-button
+                  @click="upgradePrestige('autoKindle')"
+                  size="is-large"
+                  icon-left="campfire"
+                ></b-button>
+                <div>fire starter...</div>
+              </div>
+              <div class="column prestige">
+                <b-button
+                  @click="upgradePrestige('autoChop')"
+                  size="is-large"
+                  icon-left="axe"
+                ></b-button>
+                <div>wood cutter...</div>
+              </div>
+              <div class="column prestige">
+                <b-button
+                  @click="upgradePrestige('autoStack')"
+                  size="is-large"
+                  icon-left="state-machine"
+                ></b-button>
+                <div>builder...</div>
+              </div>
+            </div>
           </fieldset>
         </div>
       </div>
@@ -106,6 +135,16 @@ export default {
       return (
         this.prestige.joulesPerSecondBonus >= 3 &&
         this.prestige.joulesPenaltyBonus >= 3
+      );
+    },
+    showTierFour() {
+      return (
+        this.prestige.woodWeightBonus >= 3 &&
+        this.prestige.woodGainsBonus >= 3 &&
+        this.prestige.woodDecayBonus >= 3 &&
+        this.prestige.joulesPerSecondBonus >= 3 &&
+        this.prestige.joulesPenaltyBonus >= 3 &&
+        this.prestige.timeBonus >= 3
       );
     },
   },

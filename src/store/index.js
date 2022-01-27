@@ -199,7 +199,14 @@ export default new Vuex.Store({
         state.prestige.joulesPenaltyBonus++;
       } else if (stat === "time") {
         state.prestige.timeBonus++;
+      } else if (state === "autoKindle") {
+        state.prestige.autoKindle = true;
+      } else if (state === "autoChop") {
+        state.prestige.autoChop = true;
+      } else if (state === "autoStack") {
+        state.prestige.autoStack = true;
       }
+
       state.prestige.level++;
       state.time.current = 0;
       state.pot.joulesPerSecond = 0;
