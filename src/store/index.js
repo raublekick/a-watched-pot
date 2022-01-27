@@ -49,8 +49,8 @@ export default new Vuex.Store({
       // TODO: add a joules bonus array
       // apply penalty based on how close to 100, apply bonus based on prestige
       var modifier =
-        ((100 - state.pot.temperature) / 100) *
-        state.prestige.joulesPenaltyBonus;
+        (100 - state.pot.temperature) /
+        (100 - state.prestige.joulesPenaltyBonus + 1);
       state.pot.joulesPerSecond =
         state.pot.joulesPerSecond *
         modifier *
