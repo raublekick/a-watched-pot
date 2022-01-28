@@ -109,9 +109,23 @@ export default new Vuex.Store({
       var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
       state.pot.temperature = temp < 0 ? 0 : temp;
 
+      // set fire state
       if (state.fire.fuel.length === 0) {
         state.fire.state = FireState.Cold;
       }
+
+      // set pot state
+      if (state.pot.temperature < 0) {
+        state.pot.state = PotState.Ice;
+      } else if (state.pot.temperature > 0 && state.pot.temperature < 70) {
+        state.pot.state = PotState.Puddle;
+      } else if (state.pot.temperature >= 70 && state.pot.temperature <= 100) {
+        state.pot.state = PotState.Simmer;
+      }
+      // TODO: set boil state as win state
+      // else if (state.pot.temp >= 100) {
+      //   state.pot.state = PotState.Boil;
+      // }
 
       // check if anything needs unlocked
       await dispatch("checkUnlocks");
