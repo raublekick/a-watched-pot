@@ -33,8 +33,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.fire {
-  border: 3px solid black;
-}
-</style>
+<style lang="scss"></style>

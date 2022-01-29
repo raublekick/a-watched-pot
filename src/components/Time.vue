@@ -8,7 +8,9 @@
     <b-modal v-model="timedOut" :can-cancel="false">
       <div class="card">
         <div class="card-content">
-          <pre>the day has ended, your eyes have closed...</pre>
+          <pre class="log small-log">
+the day has ended, your eyes have closed...</pre
+          >
           <fieldset class="p-1">
             <legend class="p-1">choose...</legend>
             <div class="columns mt-1 mb-1 has-text-centered is-vcentered">

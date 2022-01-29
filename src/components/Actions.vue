@@ -36,14 +36,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.actions {
-  border: 3px solid black;
-}
-.actions .button {
-  width: 100px;
-  border: 3px solid black;
-  border-color: black;
-  border-width: 3px;
-}
-</style>
+<style lang="scss"></style>

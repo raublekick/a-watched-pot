@@ -1,3 +1,5 @@
+@import "bulma/sass/utilities/_all";
+
 $size: 10px;
 
 .art {
@@ -14,16 +16,81 @@ $size: 10px;
   }
 }
 
-// TODO: move fieldset and button styling here w/ scss variables
-fieldset {
-  border: 3px solid black;
+.fire, .pot {
+  border: 3px solid $grey-light;
+}
+
+fieldset, .actions {
+  border: 3px solid $grey-light;
 }
 
 .button {
   width: 200px;
-  border: 3px solid black;
-  border-color: black;
+  border: 3px solid $grey-light;
+  border-color: $grey-light;
   border-width: 3px;
+  background: $black;
+  color: $grey-light;
+}
+
+.button:focus, .button.is-focused {
+  color: $grey-dark;
+  border: 3px solid $grey-dark;
+}
+
+.actions .button {
+  width: 100px;
+}
+.title {
+  color: $grey-light;
+}
+
+.card {
+  border: 3px solid $grey-light;
+  background-color: $black;
+  color: $grey-light;
+}
+
+.log {
+  width: 100%;
+  color: $grey-light;
+  border: 3px solid $grey-light;
+  background-color: $black;
+}
+.log.big-log {
+  height: 150px;
+  max-height: 150px;
+}
+
+body {
+  color: $grey-light;
+  background-color: black;
+  height:100%;
+  background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 25%);
+  background-repeat: none;
+  animation: sol 4s ease infinite;
+  -webkit-animation: sol 4s ease infinite; 
+}
+
+@keyframes sol {
+  0%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 25%)
+  }
+  25%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 75%)
+  }
+  50%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 50%)
+  }
+  75%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 60%)
+  }
+  
+}
+
+html, 
+body {
+    height: 100%;
 }
 
 @import "pot.scss";

@@ -2,7 +2,7 @@
   <div id="app">
     <section class="container">
       <h1 class="title p-4">a watched pot...</h1>
-      <pre class="log" ref="log">{{ messages }}</pre>
+      <pre class="log big-log" ref="log">{{ messages }}</pre>
       <time-block />
       <div class="row">
         <div class="columns">
@@ -14,32 +14,43 @@
             <template v-for="(group, index) in mappedActions">
               <actions :key="index" :items="group" :title="index"></actions>
             </template>
-            <fieldset class="p-1" v-if="prestige.autoKindle.unlocked || prestige.autoChop.unlocked || prestige.autoStack.unlocked">
+            <fieldset
+              class="p-1"
+              v-if="
+                prestige.autoKindle.unlocked ||
+                prestige.autoChop.unlocked ||
+                prestige.autoStack.unlocked
+              "
+            >
               <legend class="p-1">tools</legend>
               <b-button
-                  v-if="prestige.autoKindle.unlocked"
-                  :key="index"
-                  class="m-1"
-                  @click="prestige.autoKindle.active = !prestige.autoKindle.active"
-                  >fire starter {{ prestige.autoKindle.active ? "(active)" : "(inactive)" }} </b-button
-                >
+                v-if="prestige.autoKindle.unlocked"
+                :key="index"
+                class="m-1"
+                @click="
+                  prestige.autoKindle.active = !prestige.autoKindle.active
+                "
+                >fire starter
+                {{ prestige.autoKindle.active ? "(active)" : "(inactive)" }}
+              </b-button>
 
-                <b-button
-                  v-if="prestige.autoChop.unlocked"
-                  :key="index"
-                  class="m-1"
-                  @click="prestige.autoChop.active = !prestige.autoChop.active"
-                  >wood cutter {{ prestige.autoChop.active ? "(active)" : "(inactive)" }} </b-button
-                >
+              <b-button
+                v-if="prestige.autoChop.unlocked"
+                :key="index"
+                class="m-1"
+                @click="prestige.autoChop.active = !prestige.autoChop.active"
+                >wood cutter
+                {{ prestige.autoChop.active ? "(active)" : "(inactive)" }}
+              </b-button>
 
-                <b-button
-                  v-if="prestige.autoStack.unlocked"
-                  :key="index"
-                  class="m-1"
-                  @click="prestige.autoStack.active = !prestige.autoStack.active"
-                  >builder {{ prestige.autoStack.active ? "(active)" : "(inactive)" }} </b-button
-                >
-              
+              <b-button
+                v-if="prestige.autoStack.unlocked"
+                :key="index"
+                class="m-1"
+                @click="prestige.autoStack.active = !prestige.autoStack.active"
+                >builder
+                {{ prestige.autoStack.active ? "(active)" : "(inactive)" }}
+              </b-button>
             </fieldset>
             <div class="columns">
               <div class="column">
@@ -140,13 +151,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-fieldset {
-  border: 3px solid black;
-}
-.log {
-  height: 150px;
-  max-height: 150px;
-  width: 100%;
-}
-</style>
+<style lang="scss"></style>

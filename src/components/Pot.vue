@@ -32,8 +32,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.pot {
-  border: 3px solid black;
-}
-</style>
+<style lang="scss"></style>
