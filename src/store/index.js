@@ -17,8 +17,10 @@ export default new Vuex.Store({
   },
   actions: {
     async tick({ state, dispatch }) {
-      // increment time
-      state.time.current += state.time.rate / 2;
+      // increment time and scale based on temp
+      //var scale = state.pot.temperature > 10 ? state.pot.temperature / 10 : 1;
+      var scale = 1;
+      state.time.current += state.time.rate / scale;
 
       // set timeout state if time is up
       if (state.time.current >= state.time.max) {
@@ -94,11 +96,12 @@ export default new Vuex.Store({
         });
       }
 
-      // TODO: add a joules bonus array
       // apply penalty based on how close to 100, apply bonus based on prestige
       var modifier =
-        (100 - state.pot.temperature) /
-        (100 - state.prestige.joulesPenaltyBonus + 1);
+        state.pot.temperature < 100
+          ? (100 - state.pot.temperature) /
+            (100 - state.prestige.joulesPenaltyBonus + 1)
+          : 1;
       state.pot.joulesPerSecond =
         state.pot.joulesPerSecond *
         modifier *
@@ -107,8 +110,13 @@ export default new Vuex.Store({
 
       // calculate pot temperature (deltaT = Q/cm)
       var temp = state.pot.joules / (state.pot.specificHeatC * state.pot.mass);
-      state.pot.temperature = temp < 0 ? 0 : temp;
+      if (temp >= 100) {
+        state.pot.temperature = 100;
+      } else {
+        state.pot.temperature = temp < 0 ? 0 : temp;
+      }
 
+      console.log(state.pot.temperature);
       // set fire state
       var logs = _.filter(state.fire.fuel, (item) => {
         return item.name === "logs";
@@ -126,9 +134,20 @@ export default new Vuex.Store({
         state.pot.state = PotState.Ice;
       } else if (state.pot.temperature > 0 && state.pot.temperature < 70) {
         state.pot.state = PotState.Puddle;
-      } else if (state.pot.temperature >= 70 && state.pot.temperature <= 100) {
+      } else if (state.pot.temperature >= 70 && state.pot.temperature < 100) {
         state.pot.state = PotState.Simmer;
+      } else if (state.pot.temperature >= 100) {
+        state.pot.state = PotState.Boiling;
       }
+
+      if (state.pot.state === PotState.Boiling) {
+        state.pot.ticksAtBoiling++;
+        // TODO: Calculate % complete for joules required to change state vs current joules
+        console.log(state.pot.ticksAtBoiling);
+      } else {
+        state.pot.ticksAtBoiling = 0;
+      }
+
       // TODO: set boil state as win state
       // else if (state.pot.temp >= 100) {
       //   state.pot.state = PotState.Boil;
