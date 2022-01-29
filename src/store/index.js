@@ -19,7 +19,7 @@ export default new Vuex.Store({
     async tick({ state, dispatch }) {
       // increment time and scale based on temp
       //var scale = state.pot.temperature > 10 ? state.pot.temperature / 10 : 1;
-      var scale = 1;
+      var scale = state.prestige.timeBonus;
       state.time.current += state.time.rate / scale;
 
       // set timeout state if time is up
