@@ -62,30 +62,76 @@ fieldset, .actions {
   max-height: 150px;
 }
 
-body {
-  color: $grey-light;
+#app {
   background-color: black;
   height:100%;
-  background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 25%);
-  background-repeat: none;
-  animation: sol 4s ease infinite;
-  -webkit-animation: sol 4s ease infinite; 
+  color: $grey-light;
 }
 
-@keyframes sol {
+.app-fire-kindled {
+  background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 10%);
+  background-repeat: none;
+  animation: kindled 4s ease infinite;
+  -webkit-animation: kindled 4s ease infinite; 
+}
+
+@keyframes kindled {
+  0%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 10%)
+  }
+  25%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 35%)
+  }
+  50%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 20%)
+  }
+  75%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 50%)
+  }
+}
+
+.app-fire-crackling {
+  background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 25%);
+  background-repeat: none;
+  animation: crackling 4s ease infinite;
+  -webkit-animation: crackling 4s ease infinite; 
+}
+
+@keyframes crackling {
   0%{
     background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 25%)
   }
   25%{
-    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 75%)
-  }
-  50%{
-    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 50%)
-  }
-  75%{
     background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 60%)
   }
-  
+  50%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 45%)
+  }
+  75%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 75%)
+  }
+}
+
+.app-fire-roaring {
+  background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 50%);
+  background-repeat: none;
+  animation: roaring 4s ease infinite;
+  -webkit-animation: roaring 4s ease infinite; 
+}
+
+@keyframes roaring {
+  0%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 50%)
+  }
+  25%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 85%)
+  }
+  50%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 60%)
+  }
+  75%{
+    background-image: radial-gradient(ellipse at bottom, rgba(255, 155, 61, 0.473), transparent 100%)
+  }
 }
 
 html, 

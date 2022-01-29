@@ -110,7 +110,14 @@ export default new Vuex.Store({
       state.pot.temperature = temp < 0 ? 0 : temp;
 
       // set fire state
-      if (state.fire.fuel.length === 0) {
+      var logs = _.filter(state.fire.fuel, (item) => {
+        return item.name === "logs";
+      });
+      if (state.fire.state !== FireState.Cold && logs.length > 10) {
+        state.fire.state = FireState.Roaring;
+      } else if (state.fire.state !== FireState.Cold && logs.length > 0) {
+        state.fire.state = FireState.Crackling;
+      } else if (state.fire.fuel.length === 0) {
         state.fire.state = FireState.Cold;
       }
 

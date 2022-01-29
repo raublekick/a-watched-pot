@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="artClass">
     <section class="container">
       <h1 class="title p-4">a watched pot...</h1>
       <pre class="log big-log" ref="log">{{ messages }}</pre>
@@ -25,7 +25,6 @@
               <legend class="p-1">tools</legend>
               <b-button
                 v-if="prestige.autoKindle.unlocked"
-                :key="index"
                 class="m-1"
                 @click="
                   prestige.autoKindle.active = !prestige.autoKindle.active
@@ -36,7 +35,6 @@
 
               <b-button
                 v-if="prestige.autoChop.unlocked"
-                :key="index"
                 class="m-1"
                 @click="prestige.autoChop.active = !prestige.autoChop.active"
                 >wood cutter
@@ -45,7 +43,6 @@
 
               <b-button
                 v-if="prestige.autoStack.unlocked"
-                :key="index"
                 class="m-1"
                 @click="prestige.autoStack.active = !prestige.autoStack.active"
                 >builder
@@ -128,12 +125,16 @@ export default {
       "items",
       "time",
       "prestige",
+      "fire",
     ]),
     mappedActions() {
       var unlocked = _.filter(this.actions, (action) => {
         return action.unlocked;
       });
       return _.groupBy(unlocked, "type");
+    },
+    artClass() {
+      return "app-fire-" + this.fire.state;
     },
   },
   created() {
